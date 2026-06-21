@@ -193,33 +193,25 @@ export const PresentationEngine: React.FC = () => {
     }
   };
 
-  // Per-slide transitions. Reveal's CSS only matches the "-in/-out" token
-  // forms; bare names (slide/convex/zoom) match nothing. Content & cover get
-  // NO data-transition so they fall back to the global "slide" default; the
-  // section dividers swing in with a cinematic 3D convex and the finale zooms.
+  // Transition flavour per slide (CSS animations in index.css, keyed off the
+  // .present class so they re-fire on every navigation):
+  //   default content -> glide in;  section dividers & finale -> zoom in.
   const SECTIONS = new Set([2, 5, 9, 13, 18]);
-  const slideTransition = (i: number): { t?: string; speed?: string } => {
-    if (i === slides.length - 1) return { t: 'zoom-in zoom-out', speed: 'slow' };
-    if (SECTIONS.has(i)) return { t: 'convex-in convex-out', speed: 'slow' };
-    return {};
-  };
+  const flavour = (i: number) =>
+    i === 0
+      ? 'rv-cover'
+      : i === slides.length - 1 || SECTIONS.has(i)
+        ? 'rv-zoom'
+        : 'rv-glide';
 
   return (
     <div className="reveal" ref={deckRef}>
       <div className="slides">
-        {slides.map((Slide, i) => {
-          const tr = slideTransition(i);
-          return (
-            <section
-              key={i}
-              className="h-full w-full"
-              {...(tr.t ? { "data-transition": tr.t } : {})}
-              {...(tr.speed ? { "data-transition-speed": tr.speed } : {})}
-            >
-              {Slide}
-            </section>
-          );
-        })}
+        {slides.map((Slide, i) => (
+          <section key={i} className={`h-full w-full ${flavour(i)}`}>
+            {Slide}
+          </section>
+        ))}
       </div>
     </div>
   );
