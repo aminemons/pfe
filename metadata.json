@@ -1,0 +1,6 @@
+{
+  "name": "Soutenance de Master — Diffusion de Nanoparticules",
+  "description": "Présentation de soutenance interactive - Master en Nanophysique - Simulation numérique de la diffusion des nanoparticules dans le tissu cérébral (substance grise).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

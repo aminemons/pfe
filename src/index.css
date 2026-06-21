@@ -1,0 +1,80 @@
+@import url('https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Computer Modern Serif", "Times New Roman", serif;
+  --font-sans: "Computer Modern Sans", "Helvetica Neue", sans-serif;
+  --font-mono: "JetBrains Mono", "Computer Modern Typewriter", monospace;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background-color: #08182c;
+}
+
+/* ----- Reveal.js overrides (tame the white theme) ----- */
+.reveal {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  color: #1F2A33;
+}
+.reveal .slides { text-align: left; }
+.reveal .slides section {
+  height: 100%;
+  padding: 0;
+  top: 0 !important;
+}
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4 {
+  text-transform: none;
+  letter-spacing: normal;
+  line-height: 1.15;
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-serif);
+  text-shadow: none;
+}
+/* small editorial labels stay in a clean sans for contrast with the serif */
+.reveal .lbl { font-family: var(--font-sans); }
+.reveal .mono { font-family: var(--font-mono); }
+.reveal ul { list-style: none; margin: 0; display: block; }
+.reveal p { margin: 0; }
+.reveal section img { margin: 0; border: none; box-shadow: none; background: transparent; }
+
+/* KaTeX stays dark & crisp */
+.katex, .katex-display { color: #1F2A33; }
+.katex-display { margin: 0; }
+
+/* Controls / progress in the blue palette */
+.reveal .controls { color: #2A6FB0; }
+.reveal .progress { color: #2A6FB0; height: 4px; }
+.reveal .slide-number {
+  background-color: transparent;
+  color: rgba(21,50,79,0.5);
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+/* ----- Brownian / diffusion field particles ----- */
+@keyframes brownian {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(calc(var(--dx) * 0.35), calc(var(--dy) * 0.55)); }
+  45%  { transform: translate(calc(var(--dx) * 0.85), calc(var(--dy) * 0.7)); }
+  70%  { transform: translate(calc(var(--dx) * 0.55), calc(var(--dy) * 1)); }
+  100% { transform: translate(0, 0); }
+}
+.brownian {
+  animation-name: brownian;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  opacity: 0.85;
+  will-change: transform;
+}
