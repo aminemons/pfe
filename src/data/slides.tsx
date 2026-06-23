@@ -263,7 +263,7 @@ const S03_Section1 = ({ p }: { p: number }) => (
 
 const S04_Defi = ({ p }: { p: number }) => (
   <MetropolisFrame
-    title="Le défi : faire entrer un médicament dans le cerveau"
+    title="Le défi : le ciblage thérapeutique cérébral"
     progress={p}
   >
     <div className="flex h-full gap-10 items-center">
@@ -275,17 +275,18 @@ const S04_Defi = ({ p }: { p: number }) => (
               Parkinson…) restent <Kw>difficiles à traiter</Kw>.
             </span>,
             <span key="2">
-              La <Bl>barrière hémato-encéphalique</Bl> bloque plus de{" "}
-              <Kw>98 %</Kw> des médicaments.
+              La <Bl>barrière hémato-encéphalique (BHE)</Bl> est une paroi
+              cellulaire ultra-sélective qui sépare la circulation sanguine du
+              cerveau ; elle bloque plus de <Kw>98 %</Kw> des médicaments.
             </span>,
             <span key="3">
               Les <Bl>nanoparticules</Bl> (NP) peuvent la franchir grâce à leur
               petite taille et leur charge.
             </span>,
             <span key="4">
-              <span className="font-bold text-[#1F2A33]">Mais</span> une fois
-              entrées, elles doivent encore <Kw>diffuser</Kw> jusqu'à leur
-              cible : c'est le <Bl>« dernier kilomètre »</Bl>.
+              Une fois la BHE franchie, les NP doivent encore <Kw>diffuser</Kw>{" "}
+              à travers l'<Bl>espace interstitiel cérébral</Bl> : un milieu
+              dense et tortueux qui ralentit leur progression vers la cible.
             </span>,
           ]}
         />
@@ -422,6 +423,10 @@ const S08_FITC = ({ p }: { p: number }) => (
               négatives).
             </li>
           </ul>
+        </div>
+        <div className="mt-4 text-base text-[#1F2A33] italic">
+          Ces caractéristiques déterminent directement les forces qui
+          gouvernent leur mouvement.
         </div>
       </div>
       <div className="flex-[0.85] flex flex-col items-center">
@@ -566,8 +571,9 @@ const S11_Suramorti = ({ p }: { p: number }) => (
         items={[
           "À l'échelle nanométrique, le fluide est si visqueux que l'inertie est négligeable (nombre de Reynolds très faible).",
           <span key="2">
-            La particule n'accumule aucune vitesse : à chaque instant,{" "}
-            <Kw>forces = friction</Kw>.
+            La NP ne choisit pas sa direction : elle est en permanence{" "}
+            <Kw>tirée au hasard</Kw> par l'agitation thermique, et{" "}
+            <Bl>freinée</Bl> par le fluide.
           </span>,
         ]}
       />
@@ -732,7 +738,14 @@ const S15_Res1 = ({ p }: { p: number }) => {
             <List
               items={[
                 "montée rapide puis plateau : la diffusion ralentit (confinement + répulsions).",
-                "bon ordre de grandeur ➔ modèle validé, meilleur que les modèles sans électrostatique.",
+                <span key="2">
+                  bon ordre de grandeur ➔ modèle validé, meilleur que les
+                  modèles sans électrostatique{" "}
+                  <span className="text-[#1F2A33]/70">
+                    (Chen sans électrostatique :{" "}
+                    <span className="font-mono">1,61 × 10⁻¹¹</span> m²/s).
+                  </span>
+                </span>,
               ]}
             />
           </div>
@@ -795,7 +808,7 @@ const S16_Res2a = ({ p }: { p: number }) => {
                 membrane bloque la direction <em>y</em>.
               </span>,
               <span key="3">
-                les grosses NP atteignent le plateau plus vite (répulsion
+                les plus grandes NP atteignent le plateau plus vite (répulsion
                 initiale plus forte).
               </span>,
             ]}
@@ -931,7 +944,7 @@ const S18_Res3 = ({ p }: { p: number }) => {
             <strong className="text-[#E08A1E] block mb-1 text-lg">
               Conclusion :
             </strong>
-            la membrane agit trop{" "}
+            la membrane agit{" "}
             <span className="font-bold text-[#5CA9E6]">localement</span> (~1 nm) ;
             ce sont les répulsions <Kw>entre NP</Kw> qui dominent.
           </div>
