@@ -225,7 +225,7 @@ const S01_Title = () => (
     </div>
     <img src={logoENSM} alt="ENSM" className="h-[42px] w-auto mt-3" />
     <div className="text-[13px] text-[#3a4a5a] mt-2.5">
-      École Nationale Supérieure de Mathématiques (ENSM) — Alger, Algérie
+      École Nationale Supérieure de Mathématiques (ENSM) : Alger, Algérie
     </div>
     <div className="text-[13px] font-semibold text-[#15324F] mt-1.5">
       Année académique : 2025–2026
@@ -466,7 +466,7 @@ const ForceDiagram = () => (
       membrane (paroi cellulaire)
     </text>
 
-    {/* brownian path — fragment index 1 */}
+    {/* brownian path : fragment index 1 */}
     <path
       className="curve fragment"
       data-fragment-index="1"
@@ -477,7 +477,7 @@ const ForceDiagram = () => (
       strokeLinecap="round"
     />
 
-    {/* coulomb repulsion — fragment index 2 */}
+    {/* coulomb repulsion : fragment index 2 */}
     <line
       className="fragment"
       data-fragment-index="2"
@@ -490,7 +490,7 @@ const ForceDiagram = () => (
       markerEnd="url(#arrowhead)"
       markerStart="url(#arrowhead)"
     />
-    {/* membrane repulsion — fragment index 2 */}
+    {/* membrane repulsion : fragment index 2 */}
     <line className="fragment" data-fragment-index="2" x1="125" y1="248" x2="125" y2="190" stroke={NAVY} strokeWidth="3" markerEnd="url(#arrowhead)" />
     <line className="fragment" data-fragment-index="2" x1="295" y1="248" x2="295" y2="190" stroke={NAVY} strokeWidth="3" markerEnd="url(#arrowhead)" />
 
@@ -638,7 +638,7 @@ const S13_Mesure = ({ p }: { p: number }) => (
         <h3 className="text-2xl font-bold text-[#15324F] mb-2">
           1. Avancer dans le temps
           <span className="font-normal text-base ml-2 text-[#1F2A33]/70">
-            — schéma d'Euler–Maruyama. À chaque petit pas Δt :
+            : schéma d'Euler–Maruyama. À chaque petit pas Δt :
           </span>
         </h3>
         <div className="border-l-4 border-[#15324F]/25 pl-8">
@@ -652,7 +652,7 @@ const S13_Mesure = ({ p }: { p: number }) => (
         <h3 className="text-2xl font-bold text-[#15324F] mb-2">
           2. Mesurer
           <span className="font-normal text-base ml-2 text-[#1F2A33]/70">
-            — le déplacement quadratique moyen (MSD) :
+            : le déplacement quadratique moyen (MSD) :
           </span>
         </h3>
         <div className="border-l-4 border-[#15324F]/25 pl-8">
@@ -668,7 +668,7 @@ const S13_Mesure = ({ p }: { p: number }) => (
       >
         <span className="text-2xl">➔</span>
         La pente du MSD donne le coefficient de diffusion effectif&nbsp;
-        <Mathx tex="D" />&nbsp;— notre indicateur principal.
+        <Mathx tex="D" />&nbsp;: notre indicateur principal.
       </div>
     </div>
   </MetropolisFrame>
@@ -684,7 +684,7 @@ const S15_Res1 = ({ p }: { p: number }) => {
   const mx = rise(0.82, 0.16, 0.045, 3);
   const my = rise(0.62, 0.16, 0.03, 3);
   return (
-    <MetropolisFrame title="Résultat 1 — Validation du modèle" progress={p}>
+    <MetropolisFrame title="Résultat 1 : Validation du modèle" progress={p}>
       <div className="flex h-full gap-8 items-center">
         <div className="flex-[1.15]">
           <ChartCard caption="MSD en fonction du temps : composantes x, y et total">
@@ -763,7 +763,7 @@ const S16_Res2a = ({ p }: { p: number }) => {
     return { d: rise(A, tau, 0.03, 3.5), c };
   });
   return (
-    <MetropolisFrame title="Résultat 2 — Effet de la taille (MSD)" progress={p}>
+    <MetropolisFrame title="Résultat 2 : Effet de la taille (MSD)" progress={p}>
       <div className="flex h-full gap-8 items-center">
         <div className="flex-[1.15] border-r border-[#15324F]/10 pr-6">
           <ChartCard caption="MSD total pour six diamètres (10 → 20,41 nm)">
@@ -804,7 +804,7 @@ const S16_Res2a = ({ p }: { p: number }) => {
                 toutes les tailles <Bl>saturent</Bl> (domaine de taille finie).
               </span>,
               <span key="2">
-                <Bl>anisotropie</Bl> : MSD<sub>x</sub> {">"} MSD<sub>y</sub> — la
+                <Bl>anisotropie</Bl> : MSD<sub>x</sub> {">"} MSD<sub>y</sub> : la
                 membrane bloque la direction <em>y</em>.
               </span>,
               <span key="3">
@@ -828,7 +828,7 @@ const S17_Res2b = ({ p }: { p: number }) => {
   }));
   return (
     <MetropolisFrame
-      title="Résultat 2 — Effet de la taille (coefficient D)"
+      title="Résultat 2 : Effet de la taille (coefficient D)"
       progress={p}
     >
       <div className="flex h-full gap-8 items-center">
@@ -894,7 +894,7 @@ const S18_Res3 = ({ p }: { p: number }) => {
   }));
   return (
     <MetropolisFrame
-      title="Résultat 3 — Effet du potentiel membranaire"
+      title="Résultat 3 : Effet du potentiel membranaire"
       progress={p}
     >
       <div className="flex h-full gap-8 items-center">
@@ -973,7 +973,7 @@ const S20_Conclusion = ({ p }: { p: number }) => (
           <span className="text-[#2A6FB0] font-bold text-2xl mr-5">•</span>
           <span>
             <strong className="text-[#1F2A33]">Validé</strong> : écart de{" "}
-            <Kw>26,6 %</Kw> avec l'expérience — meilleur que les modèles
+            <Kw>26,6 %</Kw> avec l'expérience : meilleur que les modèles
             antérieurs.
           </span>
         </li>
@@ -989,7 +989,7 @@ const S20_Conclusion = ({ p }: { p: number }) => (
           <span className="text-[#2A6FB0] font-bold text-2xl mr-5">•</span>
           <span>
             <strong className="text-[#1F2A33]">Potentiel membranaire</strong> :{" "}
-            <Bl>aucun effet</Bl> mesurable — transport dominé par les répulsions
+            <Bl>aucun effet</Bl> mesurable : transport dominé par les répulsions
             inter-particules.
           </span>
         </li>
