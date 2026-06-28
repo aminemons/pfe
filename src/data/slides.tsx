@@ -8,8 +8,6 @@ import logoLPCQ from "../assets/images/logo_lpcq.png";
 import imgDiffusion from "../assets/images/fig_diffusion.png";
 import imgISS from "../assets/images/fig_iss_construction.png";
 import imgDouble from "../assets/images/fig_double_couche.png";
-import imgForces from "../assets/images/fig_forces.png";
-import imgSimuParams from "../assets/images/fig_simu_params.png";
 import resMsdValid from "../assets/images/res_msd_valid.jpg";
 import resMsdSizes from "../assets/images/res_msd_sizes.jpg";
 import resDSizes from "../assets/images/res_d_sizes.jpg";
@@ -149,6 +147,53 @@ const ChartCard = ({
     {caption && (
       <p className="text-xs text-center text-[#1F2A33]/60 mt-2">{caption}</p>
     )}
+  </div>
+);
+
+// Editorial "slide" panel: soft floating card, top colour accent, an icon in a
+// tinted disc, serif title. Used to recreate figure content natively.
+const Panel = ({
+  title,
+  icon,
+  accent,
+  children,
+}: {
+  title: string;
+  icon: React.ReactNode;
+  accent: string;
+  children: React.ReactNode;
+}) => (
+  <div
+    data-anim="card"
+    className="relative rounded-[18px] bg-white border border-[#eaf0f6] px-7 pt-8 pb-6 flex flex-col items-center text-center"
+    style={{ boxShadow: "0 14px 40px rgba(21,50,79,0.08)" }}
+  >
+    <span
+      className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-[4px] rounded-full"
+      style={{ background: accent }}
+    />
+    <div
+      className="w-14 h-14 rounded-full flex items-center justify-center mb-3"
+      style={{ background: `${accent}1f` }}
+    >
+      {icon}
+    </div>
+    <div className="text-[22px] leading-tight font-bold text-[#15324F]">{title}</div>
+    <div
+      className="mt-2.5 mb-4 h-[2px] w-10 rounded-full"
+      style={{ background: `${accent}66` }}
+    />
+    <div className="w-full flex-grow flex flex-col items-center justify-center">
+      {children}
+    </div>
+  </div>
+);
+
+// One "label … value" row for a parameters panel.
+const Param = ({ k, v }: { k: React.ReactNode; v: React.ReactNode }) => (
+  <div className="flex items-baseline justify-between gap-4 w-full py-[5px] border-b border-[#15324F]/[0.07] last:border-0 text-[15.5px]">
+    <span className="text-[#1F2A33]/80">{k}</span>
+    <span className="font-semibold text-[#15324F]">{v}</span>
   </div>
 );
 
@@ -443,15 +488,109 @@ const S08_FITC = ({ p }: { p: number }) => (
   </MetropolisFrame>
 );
 
+const IconDrag = () => (
+  <svg viewBox="0 0 44 44" width="28" height="28" fill="none">
+    <circle cx="28" cy="22" r="8.5" fill="#2A6FB0" />
+    <g stroke="#2A6FB0" strokeWidth="2.6" strokeLinecap="round">
+      <line x1="5" y1="13" x2="15" y2="13" />
+      <line x1="3" y1="22" x2="14" y2="22" />
+      <line x1="5" y1="31" x2="15" y2="31" />
+    </g>
+  </svg>
+);
+const IconThermal = () => (
+  <svg viewBox="0 0 44 44" width="28" height="28" fill="none">
+    <polyline
+      points="5,27 12,15 18,24 25,12 32,22 39,11"
+      stroke="#E08A1E"
+      strokeWidth="2.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx="22" cy="34" r="6" fill="#E08A1E" />
+  </svg>
+);
+const IconElec = () => (
+  <svg viewBox="0 0 44 44" width="30" height="28" fill="none">
+    <circle cx="12" cy="22" r="7.5" fill="#15324F" />
+    <circle cx="32" cy="22" r="7.5" fill="#15324F" />
+    <line x1="8" y1="22" x2="16" y2="22" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+    <line x1="28" y1="22" x2="36" y2="22" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+    <path d="M19 16 L15 22 L19 28 M25 16 L29 22 L25 28" stroke="#15324F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 const S09_Forces = ({ p }: { p: number }) => (
   <MetropolisFrame title="Trois forces gouvernent le mouvement" progress={p}>
-    <div className="flex h-full items-center justify-center">
-      <img
-        src={imgForces}
-        alt="Forces agissant sur les nanoparticules"
+    <div className="flex flex-col h-full justify-center gap-7 py-2">
+      <div className="grid grid-cols-3 gap-7 items-stretch">
+        <Panel title="Traînée visqueuse" accent="#2A6FB0" icon={<IconDrag />}>
+          <div className="flex flex-col items-center gap-2.5 text-[18px]">
+            <Mathx display draw tex={String.raw`\vec{F}_{\mathrm{drag}} = -\gamma\,\dot{\vec{r}}`} />
+            <div className="text-[13px] text-[#1F2A33]/65 lbl tracking-wide uppercase mt-1">
+              Loi de Stokes
+            </div>
+            <Mathx tex={String.raw`\gamma = 6\pi\eta R_{\mathrm{np}}`} draw={false} />
+            <div className="text-[13px] text-[#1F2A33]/65 flex items-center gap-1.5 mt-1">
+              Régime bas&nbsp;
+              <Mathx tex={String.raw`\mathrm{Re} \ll 1`} draw={false} />
+            </div>
+          </div>
+        </Panel>
+
+        <Panel title="Force thermique" accent="#E08A1E" icon={<IconThermal />}>
+          <div className="flex flex-col items-center gap-2.5 text-[17px]">
+            <div className="text-[13px] text-[#1F2A33]/65 flex items-center gap-1.5">
+              <Mathx tex={String.raw`\vec{\xi}(t)`} draw={false} /> : bruit blanc
+              gaussien
+            </div>
+            <Mathx tex={String.raw`\langle \xi \rangle = 0`} draw={false} />
+            <Mathx display draw tex={String.raw`\langle \xi(t)\,\xi(t') \rangle = 2\gamma k_B T\,\delta(t-t')`} />
+            <div className="text-[13px] text-[#1F2A33]/65 lbl tracking-wide uppercase mt-1">
+              Théorème fluctuation-dissipation
+            </div>
+          </div>
+        </Panel>
+
+        <Panel title="Électrostatique" accent="#15324F" icon={<IconElec />}>
+          <div className="flex flex-col items-center gap-2 text-[17px]">
+            <div className="text-[13px] text-[#1F2A33]/65 lbl tracking-wide uppercase">
+              Coulomb inter-NP
+            </div>
+            <Mathx display draw tex={String.raw`F_{ij} \propto \frac{q_{\mathrm{eff}}^2}{r^2}`} />
+            <div className="text-[13px] text-[#1F2A33]/65 mt-1">
+              + Interaction membrane
+            </div>
+            <Mathx tex={String.raw`F^{(M)} \propto e^{-d/\lambda_D}`} draw={false} />
+            <div className="text-[13px] text-[#1F2A33]/65 flex items-center gap-1.5">
+              <Mathx tex={String.raw`\lambda_D \approx 1`} draw={false} /> nm (ISS)
+            </div>
+          </div>
+        </Panel>
+      </div>
+
+      <div
         data-anim="card"
-        className="max-h-full max-w-[94%] object-contain rounded-sm border border-[#15324F]/12 shadow-sm"
-      />
+        className="rounded-2xl bg-[#f4f8fc] border border-[#e4edf6] px-8 py-4 flex items-stretch justify-center gap-8 max-w-4xl mx-auto w-full"
+      >
+        <div className="flex-1 text-center">
+          <div className="lbl text-[11px] uppercase tracking-[0.2em] text-[#2A6FB0] font-semibold mb-1.5">
+            Courte portée · &lt; nm
+          </div>
+          <div className="text-[15.5px] text-[#1F2A33]">
+            électrostatique ≫ brownien
+          </div>
+        </div>
+        <div className="w-px self-center h-9 bg-[#15324F]/12" />
+        <div className="flex-1 text-center">
+          <div className="lbl text-[11px] uppercase tracking-[0.2em] text-[#E08A1E] font-semibold mb-1.5">
+            Longue portée
+          </div>
+          <div className="text-[15.5px] text-[#1F2A33]">
+            diffusion brownienne domine
+          </div>
+        </div>
+      </div>
     </div>
   </MetropolisFrame>
 );
@@ -493,40 +632,61 @@ const S11_Suramorti = ({ p }: { p: number }) => (
 
 const S12_ModeleSimu = ({ p }: { p: number }) => (
   <MetropolisFrame title="Le modèle de simulation" progress={p}>
-    <div className="flex h-full gap-10 items-center">
-      <div className="flex-[1.15]">
-        <List
-          items={[
-            <span key="1">
-              <Kw>900 nanoparticules</Kw> dans une boîte 2D représentant
-              l'espace interstitiel (13,42 × 12,73 μm).
-            </span>,
-            <span key="2">
-              <Bl>Conditions périodiques</Bl> : la boîte se répète ➔ on simule
-              un milieu « infini ».
-            </span>,
-            "Une membrane chargée placée en bas du domaine.",
-            <span key="4" className="block">
-              Deux interactions :
-              <ul className="ml-6 mt-2 space-y-1 border-l-2 border-[#E08A1E] pl-4 text-lg">
-                <li>
-                  • Répulsion <Bl>de Coulomb</Bl> (entre NP)
-                </li>
-                <li>
-                  • Répulsion <Bl>de Debye–Hückel</Bl> (NP–membrane)
-                </li>
-              </ul>
-            </span>,
-          ]}
-        />
+    <div className="flex flex-col h-full justify-center gap-7">
+      <div className="grid grid-cols-2 gap-9 max-w-4xl mx-auto w-full">
+        <Panel
+          title="Milieu (matière grise)"
+          accent="#15324F"
+          icon={
+            <svg viewBox="0 0 40 40" width="26" height="26" fill="none">
+              <rect x="6" y="8" width="28" height="24" rx="3" stroke="#15324F" strokeWidth="2.2" />
+              <circle cx="14" cy="16" r="1.9" fill="#15324F" />
+              <circle cx="25" cy="14" r="1.9" fill="#15324F" />
+              <circle cx="19" cy="24" r="1.9" fill="#15324F" />
+              <circle cx="28" cy="26" r="1.9" fill="#15324F" />
+            </svg>
+          }
+        >
+          <div className="w-full px-1">
+            <Param k="Température" v="310,15 K" />
+            <Param
+              k={<><Mathx tex="\eta" draw={false} />&nbsp;Viscosité</>}
+              v="3,0 × 10⁻³ Pa·s"
+            />
+            <Param k="Domaine" v="13,42 × 12,73 µm" />
+            <Param k={<Mathx tex="\psi_m" draw={false} />} v="−20 mV" />
+            <Param k={<Mathx tex="\varepsilon" draw={false} />} v="6,55 × 10⁻¹⁰ C/Vm" />
+          </div>
+        </Panel>
+
+        <Panel
+          title="Nanoparticules"
+          accent="#2A6FB0"
+          icon={
+            <svg viewBox="0 0 40 40" width="26" height="26" fill="none">
+              <circle cx="20" cy="20" r="11" fill="#2A6FB0" />
+              <circle cx="20" cy="20" r="5" fill="#bcd6f0" />
+            </svg>
+          }
+        >
+          <div className="w-full px-1">
+            <Param k={<Mathx tex="N" draw={false} />} v="900 NPs" />
+            <Param k={<Mathx tex={String.raw`d_{\mathrm{hydro}}`} draw={false} />} v="20,41 nm" />
+            <Param k={<Mathx tex="\zeta" draw={false} />} v="−22,4 mV" />
+            <Param k={<Mathx tex={String.raw`\Delta t`} draw={false} />} v="5 × 10⁻⁸ s" />
+            <Param k="Durée" v="0 – 0,03 s" />
+          </div>
+        </Panel>
       </div>
-      <div className="flex-[0.95] flex justify-center items-center h-full">
-        <img
-          src={imgSimuParams}
-          alt="Paramètres de simulation"
-          data-anim="card"
-          className="max-h-full max-w-full object-contain rounded-sm border border-[#15324F]/12 shadow-sm"
-        />
+
+      <div className="text-center max-w-4xl mx-auto">
+        <div className="lbl text-[13px] tracking-[0.22em] uppercase text-[#E08A1E] font-semibold mb-1.5">
+          Conditions aux limites périodiques
+        </div>
+        <div className="text-[#1F2A33] text-[15.5px]">
+          Simulation d'un milieu « infini » par repliement spatial, pour éviter
+          les artefacts de bord.
+        </div>
       </div>
     </div>
   </MetropolisFrame>
