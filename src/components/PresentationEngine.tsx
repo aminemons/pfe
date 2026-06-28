@@ -196,7 +196,7 @@ export const PresentationEngine: React.FC = () => {
   // Transition flavour per slide (CSS animations in index.css, keyed off the
   // .present class so they re-fire on every navigation):
   //   default content -> glide in;  section dividers & finale -> zoom in.
-  const SECTIONS = new Set([2, 5, 9, 13, 18]);
+  const SECTIONS = new Set([2, 5, 9, 13, 19]);
   const flavour = (i: number) =>
     i === 0
       ? 'rv-cover'

@@ -1,28 +1,22 @@
 import React from "react";
 import { Mathx } from "../components/MathFx";
 
-import {
-  Chart,
-  DrawCurve,
-  Legend,
-  buildPath,
-  rise,
-  peakDecay,
-  PeriodicBox,
-  NAVY,
-  ROI,
-  CIEL,
-  AMBRE,
-} from "../components/Diagrams";
-
-// --- Real figures & logos extracted from the mémoire ---
-import logoUMMTO from "../assets/images/logo_ummto.png";
+// --- Real figures & logos ---
+import logoUMMTO from "../assets/images/logo_ummto_clean.png";
 import logoENSM from "../assets/images/logo_ensm.png";
+import logoLPCQ from "../assets/images/logo_lpcq.png";
 import imgDiffusion from "../assets/images/fig_diffusion.png";
 import imgISS from "../assets/images/fig_iss_construction.png";
 import imgDouble from "../assets/images/fig_double_couche.png";
+import imgForces from "../assets/images/fig_forces.png";
+import imgSimuParams from "../assets/images/fig_simu_params.png";
+import resMsdValid from "../assets/images/res_msd_valid.jpg";
+import resMsdSizes from "../assets/images/res_msd_sizes.jpg";
+import resDSizes from "../assets/images/res_d_sizes.jpg";
+import resMsdPot from "../assets/images/res_msd_pot.jpg";
+import resDPot from "../assets/images/res_d_pot.jpg";
 
-const TOTAL = 22;
+const TOTAL = 23;
 
 // --- Shared inline emphasis ---
 const Kw = ({ children }: { children: React.ReactNode }) => (
@@ -31,11 +25,6 @@ const Kw = ({ children }: { children: React.ReactNode }) => (
 const Bl = ({ children }: { children: React.ReactNode }) => (
   <span className="font-bold text-[#2A6FB0]">{children}</span>
 );
-
-// 6-size ordered palette (small -> large): navy/blues -> amber
-const SIZE_COLORS = ["#15324F", "#1E5187", "#2A6FB0", "#5CA9E6", "#E0A63A", "#E0741E"];
-const SIZE_LABELS = ["10 nm", "12 nm", "14 nm", "16 nm", "18 nm", "20,41 nm"];
-const comma = (v: number) => `${v}`.replace(".", ",");
 
 // --- Shared components ---
 
@@ -219,15 +208,25 @@ const S01_Title = () => (
       </div>
     </div>
 
-    {/* establishment */}
-    <div className="lbl text-[11px] tracking-[0.26em] uppercase text-[#3a4a5a]/75 font-semibold mt-9">
-      Établissement d'accueil du stage
+    {/* establishments — stage at both ENSM (Alger) and LPCQ (UMMTO, Tizi Ouzou) */}
+    <div className="lbl text-[11px] tracking-[0.26em] uppercase text-[#3a4a5a]/75 font-semibold mt-8">
+      Établissements d'accueil du stage
     </div>
-    <img src={logoENSM} alt="ENSM" className="h-[42px] w-auto mt-3" />
-    <div className="text-[13px] text-[#3a4a5a] mt-2.5">
-      École Nationale Supérieure de Mathématiques (ENSM) : Alger, Algérie
+    <div className="flex items-start justify-center gap-16 mt-3">
+      <div className="flex flex-col items-center gap-2 w-[280px]">
+        <img src={logoENSM} alt="ENSM" className="h-[44px] w-auto" />
+        <div className="text-[12px] text-[#3a4a5a] leading-snug">
+          École Nationale Supérieure de Mathématiques (ENSM), Alger
+        </div>
+      </div>
+      <div className="flex flex-col items-center gap-2 w-[280px]">
+        <img src={logoLPCQ} alt="LPCQ" className="h-[44px] w-auto" />
+        <div className="text-[12px] text-[#3a4a5a] leading-snug">
+          Laboratoire de Physique et Chimie Quantique (LPCQ), UMMTO, Tizi Ouzou
+        </div>
+      </div>
     </div>
-    <div className="text-[13px] font-semibold text-[#15324F] mt-1.5">
+    <div className="text-[13px] font-semibold text-[#15324F] mt-4">
       Année académique : 2025–2026
     </div>
   </div>
@@ -398,8 +397,9 @@ const S08_FITC = ({ p }: { p: number }) => (
         <List
           items={[
             <span key="1">
-              Cœur magnétique (Fe₃O₄) + marqueur <Bl>fluorescent</Bl> (FITC) ➔
-              imagerie <em>et</em> transport ciblé.
+              Cœur magnétique (Fe₃O₄) + marqueur <Bl>fluorescent</Bl> FITC
+              (isothiocyanate de fluorescéine) ➔ imagerie <em>et</em> transport
+              ciblé.
             </span>,
             <span key="2">
               Diamètre effectif : <Kw>20,41 nm</Kw>.
@@ -443,119 +443,15 @@ const S08_FITC = ({ p }: { p: number }) => (
   </MetropolisFrame>
 );
 
-// --- Forces: single slide built up with synchronised fragments ---
-const ForceDiagram = () => (
-  <svg viewBox="0 0 420 320" className="w-full h-full max-w-md">
-    <defs>
-      <marker id="arrowhead" markerWidth="7" markerHeight="6" refX="5.5" refY="3" orient="auto">
-        <polygon points="0 0, 7 3, 0 6" fill={NAVY} />
-      </marker>
-    </defs>
-
-    {/* domain */}
-    <rect x="10" y="10" width="400" height="300" rx="6" fill="none" stroke={NAVY} strokeWidth="2" />
-    {/* membrane */}
-    <rect x="10" y="272" width="400" height="38" fill="rgba(42,111,176,0.14)" />
-    <line x1="10" y1="272" x2="410" y2="272" stroke={ROI} strokeWidth="2" />
-    {[40, 80, 120, 160, 200, 240, 280, 320, 360].map((x) => (
-      <text key={x} x={x} y="295" fontSize="14" fill={ROI} textAnchor="middle" fontWeight="bold">
-        −
-      </text>
-    ))}
-    <text x="210" y="320" fontSize="12" fill={NAVY} textAnchor="middle">
-      membrane (paroi cellulaire)
-    </text>
-
-    {/* brownian path : fragment index 1 */}
-    <path
-      className="curve fragment"
-      data-fragment-index="1"
-      d="M 125 150 L 138 122 L 118 96 L 150 84 L 178 104 L 168 132 L 196 120"
-      fill="none"
-      stroke={AMBRE}
-      strokeWidth="2.4"
-      strokeLinecap="round"
-    />
-
-    {/* coulomb repulsion : fragment index 2 */}
-    <line
-      className="fragment"
-      data-fragment-index="2"
-      x1="158"
-      y1="150"
-      x2="262"
-      y2="150"
-      stroke={NAVY}
-      strokeWidth="3"
-      markerEnd="url(#arrowhead)"
-      markerStart="url(#arrowhead)"
-    />
-    {/* membrane repulsion : fragment index 2 */}
-    <line className="fragment" data-fragment-index="2" x1="125" y1="248" x2="125" y2="190" stroke={NAVY} strokeWidth="3" markerEnd="url(#arrowhead)" />
-    <line className="fragment" data-fragment-index="2" x1="295" y1="248" x2="295" y2="190" stroke={NAVY} strokeWidth="3" markerEnd="url(#arrowhead)" />
-
-    {/* particles (always visible, on top) */}
-    {[125, 295].map((cx) => (
-      <g key={cx}>
-        <circle cx={cx} cy="150" r="26" fill={CIEL} stroke={ROI} strokeWidth="1.5" />
-        <text x={cx} y="157" fill="white" fontSize="22" textAnchor="middle" fontWeight="bold">
-          −
-        </text>
-      </g>
-    ))}
-  </svg>
-);
-
 const S09_Forces = ({ p }: { p: number }) => (
   <MetropolisFrame title="Trois forces gouvernent le mouvement" progress={p}>
-    <div className="flex h-full gap-10 items-center">
-      <div className="flex-1 pr-6 border-r border-[#15324F]/10">
-        <ul className="space-y-7 text-xl font-serif">
-          <li className="flex items-start">
-            <span className="bg-[#2A6FB0] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-4 shrink-0 text-base">
-              1
-            </span>
-            <div>
-              <span className="font-bold text-[#2A6FB0] block text-xl">
-                Traînée visqueuse
-              </span>
-              <span className="text-[#1F2A33] text-lg">
-                Le fluide freine la particule (loi de Stokes).
-              </span>
-            </div>
-          </li>
-          <li className="flex items-start fragment" data-fragment-index="1">
-            <span className="bg-[#E08A1E] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-4 shrink-0 text-base">
-              2
-            </span>
-            <div>
-              <span className="font-bold text-[#E08A1E] block text-xl">
-                Agitation thermique
-              </span>
-              <span className="text-[#1F2A33] text-lg">
-                Chocs aléatoires du fluide ➔ mouvement brownien.
-              </span>
-            </div>
-          </li>
-          <li className="flex items-start fragment" data-fragment-index="2">
-            <span className="bg-[#15324F] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-4 shrink-0 text-base">
-              3
-            </span>
-            <div>
-              <span className="font-bold text-[#15324F] block text-xl">
-                Interactions électrostatiques
-              </span>
-              <ul className="mt-1 space-y-1 text-base border-l-2 border-[#15324F]/20 pl-3 text-[#1F2A33]">
-                <li>• Répulsion entre NP (Coulomb)</li>
-                <li>• Répulsion NP–membrane (très courte portée, ~1 nm)</li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div className="flex-1 flex justify-center items-center h-[82%]">
-        <ForceDiagram />
-      </div>
+    <div className="flex h-full items-center justify-center">
+      <img
+        src={imgForces}
+        alt="Forces agissant sur les nanoparticules"
+        data-anim="card"
+        className="max-h-full max-w-[94%] object-contain rounded-sm border border-[#15324F]/12 shadow-sm"
+      />
     </div>
   </MetropolisFrame>
 );
@@ -603,7 +499,7 @@ const S12_ModeleSimu = ({ p }: { p: number }) => (
           items={[
             <span key="1">
               <Kw>900 nanoparticules</Kw> dans une boîte 2D représentant
-              l'espace interstitiel (~13 × 13 μm).
+              l'espace interstitiel (13,42 × 12,73 μm).
             </span>,
             <span key="2">
               <Bl>Conditions périodiques</Bl> : la boîte se répète ➔ on simule
@@ -624,8 +520,13 @@ const S12_ModeleSimu = ({ p }: { p: number }) => (
           ]}
         />
       </div>
-      <div className="flex-[0.85] flex justify-center items-center h-full">
-        <PeriodicBox />
+      <div className="flex-[0.95] flex justify-center items-center h-full">
+        <img
+          src={imgSimuParams}
+          alt="Paramètres de simulation"
+          data-anim="card"
+          className="max-h-full max-w-full object-contain rounded-sm border border-[#15324F]/12 shadow-sm"
+        />
       </div>
     </div>
   </MetropolisFrame>
@@ -680,40 +581,16 @@ const S14_Section4 = ({ p }: { p: number }) => (
 
 // ---- Result 1: validation MSD chart ----
 const S15_Res1 = ({ p }: { p: number }) => {
-  const tot = rise(1.42, 0.18, 0.07, 3);
-  const mx = rise(0.82, 0.16, 0.045, 3);
-  const my = rise(0.62, 0.16, 0.03, 3);
   return (
     <MetropolisFrame title="Résultat 1 : Validation du modèle" progress={p}>
       <div className="flex h-full gap-8 items-center">
         <div className="flex-[1.15]">
           <ChartCard caption="MSD en fonction du temps : composantes x, y et total">
-            <Chart
-              xDomain={[0, 3]}
-              yDomain={[0, 1.8]}
-              xTicks={[0, 1, 2, 3]}
-              yTicks={[0, 0.5, 1, 1.5]}
-              xLabel="t  (ms)"
-              yLabel="MSD  (×10⁻¹³ m²)"
-              tickFmt={comma}
-            >
-              {(map) => (
-                <>
-                  <DrawCurve d={buildPath(tot, map)} color={NAVY} width={2.8} />
-                  <DrawCurve d={buildPath(mx, map)} color={ROI} />
-                  <DrawCurve d={buildPath(my, map)} color={AMBRE} />
-                  <Legend
-                    x={360}
-                    y={70}
-                    items={[
-                      { label: "MSD total", color: NAVY },
-                      { label: "MSD selon x", color: ROI },
-                      { label: "MSD selon y", color: AMBRE },
-                    ]}
-                  />
-                </>
-              )}
-            </Chart>
+            <img
+              src={resMsdValid}
+              alt="MSD en fonction du temps"
+              className="w-full h-auto"
+            />
           </ChartCard>
         </div>
         <div className="flex-1 flex flex-col justify-center">
@@ -757,41 +634,16 @@ const S15_Res1 = ({ p }: { p: number }) => {
 
 // ---- Result 2a: size effect on MSD (family of curves) ----
 const S16_Res2a = ({ p }: { p: number }) => {
-  const curves = SIZE_COLORS.map((c, i) => {
-    const A = 1.5 + i * 0.03;
-    const tau = 0.32 - i * 0.035;
-    return { d: rise(A, tau, 0.03, 3.5), c };
-  });
   return (
     <MetropolisFrame title="Résultat 2 : Effet de la taille (MSD)" progress={p}>
       <div className="flex h-full gap-8 items-center">
         <div className="flex-[1.15] border-r border-[#15324F]/10 pr-6">
           <ChartCard caption="MSD total pour six diamètres (10 → 20,41 nm)">
-            <Chart
-              xDomain={[0, 3.5]}
-              yDomain={[0, 1.8]}
-              xTicks={[0, 1, 2, 3]}
-              yTicks={[0, 0.5, 1, 1.5]}
-              xLabel="t  (ms)"
-              yLabel="MSD  (×10⁻¹³ m²)"
-              tickFmt={comma}
-            >
-              {(map) => (
-                <>
-                  {curves.map((cu, i) => (
-                    <DrawCurve key={i} d={buildPath(cu.d, map)} color={cu.c} width={2.2} />
-                  ))}
-                  <Legend
-                    x={372}
-                    y={150}
-                    items={SIZE_COLORS.map((c, i) => ({
-                      label: SIZE_LABELS[i],
-                      color: c,
-                    }))}
-                  />
-                </>
-              )}
-            </Chart>
+            <img
+              src={resMsdSizes}
+              alt="MSD total pour six diamètres"
+              className="w-full h-auto"
+            />
           </ChartCard>
         </div>
         <div className="flex-[0.85]">
@@ -821,11 +673,6 @@ const S16_Res2a = ({ p }: { p: number }) => {
 
 // ---- Result 2b: size effect on D(t) (transient peak + decay) ----
 const S17_Res2b = ({ p }: { p: number }) => {
-  const peaks = [0.8, 1.3, 2.0, 3.0, 4.5, 6.1];
-  const curves = SIZE_COLORS.map((c, i) => ({
-    d: peakDecay(peaks[i], 0.12, 0.13, 3.5),
-    c,
-  }));
   return (
     <MetropolisFrame
       title="Résultat 2 : Effet de la taille (coefficient D)"
@@ -834,31 +681,11 @@ const S17_Res2b = ({ p }: { p: number }) => {
       <div className="flex h-full gap-8 items-center">
         <div className="flex-[1.15] border-r border-[#15324F]/10 pr-6">
           <ChartCard caption="Coefficient de diffusion D(t) pour six diamètres (10 à 20,41 nm)">
-            <Chart
-              xDomain={[0, 3.5]}
-              yDomain={[0, 6.5]}
-              xTicks={[0, 1, 2, 3]}
-              yTicks={[0, 2, 4, 6]}
-              xLabel="t  (ms)"
-              yLabel="D  (×10⁻¹⁰ m²/s)"
-              tickFmt={comma}
-            >
-              {(map) => (
-                <>
-                  {curves.map((cu, i) => (
-                    <DrawCurve key={i} d={buildPath(cu.d, map)} color={cu.c} width={2.2} />
-                  ))}
-                  <Legend
-                    x={372}
-                    y={60}
-                    items={SIZE_COLORS.map((c, i) => ({
-                      label: SIZE_LABELS[i],
-                      color: c,
-                    }))}
-                  />
-                </>
-              )}
-            </Chart>
+            <img
+              src={resDSizes}
+              alt="Coefficient de diffusion D(t) pour six diamètres"
+              className="w-full h-auto"
+            />
           </ChartCard>
         </div>
         <div className="flex-[0.85] flex flex-col justify-center">
@@ -886,12 +713,6 @@ const S17_Res2b = ({ p }: { p: number }) => {
 
 // ---- Result 3: membrane potential (superposed curves) ----
 const S18_Res3 = ({ p }: { p: number }) => {
-  const pots = ["0 mV", "−5 mV", "−10 mV", "−15 mV", "−20 mV"];
-  const cols = [NAVY, ROI, CIEL, AMBRE, "#E0741E"];
-  const curves = cols.map((c, i) => ({
-    d: rise(1.45 + (i - 2) * 0.004, 0.17, 0.06, 3.5),
-    c,
-  }));
   return (
     <MetropolisFrame
       title="Résultat 3 : Effet du potentiel membranaire"
@@ -900,28 +721,11 @@ const S18_Res3 = ({ p }: { p: number }) => {
       <div className="flex h-full gap-8 items-center">
         <div className="flex-[1.15] border-r border-[#15324F]/10 pr-6">
           <ChartCard caption="MSD total pour ψₘ de 0 à −20 mV (courbes superposées)">
-            <Chart
-              xDomain={[0, 3.5]}
-              yDomain={[0, 1.8]}
-              xTicks={[0, 1, 2, 3]}
-              yTicks={[0, 0.5, 1, 1.5]}
-              xLabel="t  (ms)"
-              yLabel="MSD  (×10⁻¹³ m²)"
-              tickFmt={comma}
-            >
-              {(map) => (
-                <>
-                  {curves.map((cu, i) => (
-                    <DrawCurve key={i} d={buildPath(cu.d, map)} color={cu.c} width={2} opacity={0.9} />
-                  ))}
-                  <Legend
-                    x={372}
-                    y={150}
-                    items={cols.map((c, i) => ({ label: pots[i], color: c }))}
-                  />
-                </>
-              )}
-            </Chart>
+            <img
+              src={resMsdPot}
+              alt="MSD total pour différents potentiels membranaires"
+              className="w-full h-auto"
+            />
           </ChartCard>
         </div>
         <div className="flex-[0.85]">
@@ -953,6 +757,43 @@ const S18_Res3 = ({ p }: { p: number }) => {
     </MetropolisFrame>
   );
 };
+
+// ---- Result 3 (suite): diffusion coefficient vs membrane potential ----
+const S18b_Res3D = ({ p }: { p: number }) => (
+  <MetropolisFrame
+    title="Coefficient de diffusion et potentiel membranaire"
+    progress={p}
+  >
+    <div className="flex h-full gap-8 items-center">
+      <div className="flex-[1.15] border-r border-[#15324F]/10 pr-6">
+        <ChartCard caption="Coefficient de diffusion D(t) selon le potentiel ψₘ">
+          <img
+            src={resDPot}
+            alt="Coefficient de diffusion pour différents potentiels membranaires"
+            className="w-full h-auto"
+          />
+        </ChartCard>
+      </div>
+      <div className="flex-[0.85]">
+        <h4 className="text-xl font-bold text-[#15324F] mb-4">
+          Lecture du graphique
+        </h4>
+        <List
+          items={[
+            "Le coefficient de diffusion suit la même décroissance pour les cinq potentiels.",
+            <span key="2">
+              Les courbes sont rigoureusement <Bl>superposées</Bl>.
+            </span>,
+            <span key="3">
+              La valeur asymptotique reste <Bl>identique</Bl>, confirmant
+              l'absence d'effet du potentiel membranaire.
+            </span>,
+          ]}
+        />
+      </div>
+    </div>
+  </MetropolisFrame>
+);
 
 const S19_Section5 = ({ p }: { p: number }) => (
   <SectionPage title="5. Conclusion & perspectives" progress={p} />
@@ -1031,7 +872,6 @@ const S22_Standout = () => (
       Merci de votre attention
     </h1>
     <div className="w-24 h-[3px] bg-[#5CA9E6]" />
-    <h2 className="text-3xl text-white/70 mt-7 font-light italic">Questions ?</h2>
     <div className="absolute bottom-10 text-[13px] text-white/45">
       Iratni Asmaa El Khanssa &nbsp;·&nbsp; UMMTO – ENSM &nbsp;·&nbsp; 2025–2026
     </div>
@@ -1057,6 +897,7 @@ const slideComponents: React.FC<{ p: number }>[] = [
   S16_Res2a,
   S17_Res2b,
   S18_Res3,
+  S18b_Res3D,
   S19_Section5,
   S20_Conclusion,
   S21_Perspectives,

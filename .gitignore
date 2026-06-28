@@ -6,3 +6,6 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# raw asset dump (copied into src/assets)
+NEWASSESTS/
